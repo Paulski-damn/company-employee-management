@@ -15,7 +15,12 @@
 /node_modules
 /public/build
 /public/hot
+# Ignore everything in public/storage
 /public/storage
+
+# But allow the logos folder
+!/public/storage/logos
+
 /storage/*.key
 /storage/pail
 /vendor
