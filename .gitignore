@@ -21,6 +21,8 @@
 # But allow the logos folder
 !/public/storage/logos
 
+!/storage/app/public/logos
+
 /storage/*.key
 /storage/pail
 /vendor
