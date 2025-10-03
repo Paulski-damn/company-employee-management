@@ -1,61 +1,151 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Company & Employee Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a **Laravel-based system** for managing companies and their employees. It allows administrators to:
 
-## About Laravel
+* Create, read, update, and delete **companies** and **employees**.
+* Upload company logos (with minimum dimensions 100x100).
+* Automatically assign employees to companies.
+* Paginate company and employee lists (10 entries per page).
+* Basic authentication for admin users.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Before running the system, ensure you have:
 
-## Learning Laravel
+* PHP >= 8.x
+* Composer
+* MySQL or MariaDB
+* Node.js & npm (for compiling frontend assets)
+* Git
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation and Setup
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Follow these steps to run the system locally with the existing data:
 
-## Laravel Sponsors
+### 1. Clone the Repository
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone <your-repo-url>
+cd <repository-folder>
+```
 
-### Premium Partners
+### 2. Install PHP Dependencies
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+composer install
+```
 
-## Contributing
+### 3. Install Node Dependencies (for frontend assets)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+npm install
+npm run dev
+```
 
-## Code of Conduct
+### 4. Copy `.env` File
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+cp .env.example .env
+```
 
-## Security Vulnerabilities
+Edit the `.env` file and set your database credentials:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=qxitinterviewdb
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## License
+### 5. Generate Application Key
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan key:generate
+```
+
+### 6. Import Existing Database Data
+
+If you already have a database backup, import it (replace `backup.sql` with your file):
+
+```bash
+mysql -u your_db_user -p your_database_name < backup.sql
+```
+
+> Ensure the `DB_DATABASE` in `.env` matches the imported database.
+
+### 7. Run Migrations (optional)
+
+If you want to ensure the schema is up to date:
+
+```bash
+php artisan migrate
+```
+
+> This will not overwrite your existing data if tables already exist.
+
+### 8. Seed the Database (optional)
+
+If you want default users or demo data:
+
+```bash
+php artisan db:seed
+```
+
+### 9. Serve the Application
+
+```bash
+php artisan serve
+```
+
+The system will be accessible at `http://127.0.0.1:8000`.
+
+---
+
+## Default Admin Account
+
+* **Email:** `qxit@quantumx.com`
+* **Password:** `interview@qxit`
+
+> Use this account to log in and manage companies and employees.
+
+---
+
+## Notes
+
+* Make sure `storage` and `bootstrap/cache` folders are writable:
+
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+* Company logos must meet the minimum size requirement: **100x100 pixels**.
+* Laravel validation and pagination are implemented for smooth user experience.
+* Run `composer dump-autoload` if VSCode or IDE shows errors, but the system runs fine.
+
+---
+
+## Troubleshooting
+
+* **Red lines in VSCode / IntelliSense errors:** Often caused by IDE not recognizing Laravel facades. Fix with:
+
+```bash
+composer dump-autoload
+```
+
+* **Assets not compiling:** Ensure Node and npm are installed, then run:
+
+```bash
+npm run dev
+```
+
+* **Database connection errors:** Double-check your `.env` credentials and ensure MySQL is running.
+
+---
+
+This README allows anyone to **clone the repo, import your existing data, and run the system immediately**.
